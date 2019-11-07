@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Web</title>
+    <style type="text/css">
+        body {background-color: whitesmoke}
+        div.gallery {
+          margin: 10px 30px;
+          /*border: 1px solid #ccc;*/
+          float: left;
+          width: 180px;
+        }
+
+
+        div.gallery img {
+          width: 100%;
+          height: auto;
+        }
+
+        div.p {
+          padding: 15px;
+          text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="window.location.href ='index.html'"><-- back</button>
+    <span id='image'>
+    </span>
+
+    <div id="output"></div><br>
+    <div>
+      <button onclick="show(5,10)" id="show">show more</button>
+    </div>
+<script>
+    var start=0,end=5,c=0;
+    var queryString = decodeURIComponent(window.location.search);
+    queryString = queryString.substring(1);
+    var queries = queryString.split("&");
+    var movie=queries[0].split("=")[1];
+    show(start,end);
+    function show(start,end){
+      c+=1;
+      fetch('http://www.omdbapi.com/?apikey=ef0c5d6e&s='+String(movie))
+      .then(response => response.json())
+      .then(data => {
+        if(c<=2 && start <data.Search.length){
+          for(var i=start;i<end;i++)
+          {
+              if(i == data.Search.length){
+                break;
+              }
+              var img = document.createElement('img');
+              img.setAttribute("onclick","display('"+data.Search[i].imdbID+"')");
+              img.src = String(data.Search[i].Poster);
+              img.height = "100"
+              img.width = "100"
+              img.hspace = "10"
+              img.vspace = "10"
+
+              var title = String(data.Search[i].Title)
+              var p = document.createElement('p')
+              var node = document.createTextNode(title)
+              p.appendChild(node)
+              var div = document.createElement('div');
+              div.setAttribute('class', 'gallery');
+              div.appendChild(img)
+              div.appendChild(p)
+              document.getElementById('image').appendChild(div);
+              document.getElementById("output").appendChild(div);
+
+          }
+        }
+
+      })
+      .catch(error => console.error(error))
+    }
+console.log(data_org);
+function display(imdbID)
+{
+  //alert(imdbID)
+  var queryString = "?id=" + imdbID;
+  window.location.href = "detail.html" + queryString;
+}
+</script>
+</body>
+</html>

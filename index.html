@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Web</title>
+    <style type="text/css">
+        body {background-color: whitesmoke;margin-top:20%}
+    </style>
+</head>
+<body>
+    <center><h1>MovieWiki</h1>
+    <input type="text" name="search" id="movie" autocomplete="off" onkeydown="search(this)">
+
+    <!-- <span id='image'>
+    </span> -->
+    </center>
+    <div id="output"></div>
+<script>
+function search(ele)
+{
+    // document.getElementById("output").innerHTML="";
+        if(event.key === 'Enter') {
+           var movie=document.getElementById("movie").value;
+           var queryString = "?movie=" + movie;
+           window.location.href = "grid.html" + queryString;
+        }
+
+}
+</script>
+</body>
+</html>
